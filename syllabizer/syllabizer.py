@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 import re
 from operator import add
 
 
-class Syllabizer:
+class Syllabizer(object):
 	
 	vowels = [
 		'a','ą','e','ę','i','o','ó','u','y',
@@ -27,9 +26,25 @@ class Syllabizer:
 	decoded_conosants = [char.decode('utf-8') for char in conosants]
 	decoded_bivowels = [char.decode('utf-8') for char in  bivowels]
 	decoded_biconosants = [char.decode('utf-8') for char in biconosants]
-	
-	def __init__(self):
-		pass
+						
+	@property		
+	def _all_conosants(self):
+		return Syllabizer.conosants + Syllabizer.biconosants	
+	@property		
+	def _all_vowels(self):
+		return Syllabizer.vowels + Syllabizer.bivowels	
+	@property	
+	def _all_bichars(self):
+		return Syllabizer.biconosants + Syllabizer.bivowels		
+	@property	
+	def _all_decoded_conosants(self):
+		return Syllabizer.decoded_conosants + Syllabizer.decoded_biconosants	
+	@property		
+	def _all_decoded_vowels(self):
+		return Syllabizer.decoded_vowels + Syllabizer.decoded_vowels	
+	@property	
+	def _all_decoded_bichars(self):
+		return Syllabizer.decoded_biconosants + Syllabizer.decoded_bivowels	
 
 	def syllabize(self, word, as_one_list=False):
 		if as_one_list:
@@ -37,7 +52,7 @@ class Syllabizer:
 		else:
 			return self.simpleCut(word) + self.greedyCut(word)
 		
-	def greedyCut(self,word):
+	def greedy_cut(self,word):
 		symbols = self.chunk_symbols(word)
 		charlist = self.split(word)
 		syllables = []
@@ -60,7 +75,7 @@ class Syllabizer:
 			prevSymbol=symbol	
 		return syllables				
 				
-	def simpleCut(self,word):
+	def simple_cut(self,word):
 		symbols = self.chunk_symbols(word, as_list=True)
 		charlist = self.split(word)
 		syllables = []
@@ -119,22 +134,4 @@ class Syllabizer:
 				chunklist.append(charlist[index])
 				index+=1
 		return chunklist			
-					
-			
-	def _allConosants(self):
-		return Syllabizer.conosants + Syllabizer.biconosants	
-			
-	def _allVowels(self):
-		return Syllabizer.vowels + Syllabizer.bivowels	
-		
-	def _allBichars(self):
-		return Syllabizer.biconosants + Syllabizer.bivowels		
-		
-	def _allDecConosants(self):
-		return Syllabizer.decoded_conosants + Syllabizer.decoded_biconosants	
-			
-	def _allDecVowels(self):
-		return Syllabizer.decoded_vowels + Syllabizer.decoded_vowels	
-		
-	def _allDecBichars(self):
-		return Syllabizer.decoded_biconosants + Syllabizer.decoded_bivowels		
+	
