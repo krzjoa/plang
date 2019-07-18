@@ -48,9 +48,9 @@ class Syllabizer(object):
 
 	def syllabize(self, word, as_one_list=False):
 		if as_one_list:
-			return [self.simpleCut(word),self.greedyCut(word)]
+			return [self.simple_cut(word),self.greedy_cut(word)]
 		else:
-			return self.simpleCut(word) + self.greedyCut(word)
+			return self.simple_cut(word) + self.greedy_cut(word)
 		
 	def greedy_cut(self,word):
 		symbols = self.chunk_symbols(word)
@@ -109,9 +109,9 @@ class Syllabizer(object):
 	def chunk_symbols(self,word,as_list=False):
 		chunklist = self.split(word)
 		for indx in range(len(chunklist)):
-			if chunklist[indx] in self._allVowels():
+			if chunklist[indx] in self._all_vowels:
 				chunklist[indx]='v'
-			elif chunklist[indx] in self._allConosants():
+			elif chunklist[indx] in self._all_conosants:
 				chunklist[indx]='c'
 			else:
 				chunklist[indx]='u'
@@ -127,7 +127,7 @@ class Syllabizer(object):
 		index = 0
 		while index  <= lastIndex:
 			bichar = charlist[index]+charlist[index+1] if (index<lastIndex) else ""
-			if bichar in self._allBichars():
+			if bichar in self._all_bichars:
 				chunklist.append(bichar)
 				index+=2
 			else:		
